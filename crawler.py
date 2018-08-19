@@ -21,7 +21,7 @@ path = r"D:/School/Python/Rating/chromedriver.exe"
 max_teams = 50
 
 # Open up a chrome browser and get IM Standings page
-driver = webdriver.Chrome(path)
+driver = webdriver.Chrome()
 driver.get(standings_url)
 
 element = WebDriverWait(driver, 30).until(
