@@ -102,3 +102,4 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+stats_list_filtered.csv
