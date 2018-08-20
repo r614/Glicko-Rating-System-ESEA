@@ -2,7 +2,8 @@ import csv
 
 
 class Match:
-    def __init__(self, home, away, map, result, score, date):
+    def __init__(self, tname, home, away, map, result, score, date):
+        self.tname = tname
         self.home = home
         self.away = away
         self.map = map
@@ -14,7 +15,7 @@ class Match:
             return self.__dict__ == other.__dict__
 
     def stat_row(self):
-        return '{}  {}  {}  {}  {}  {}'.format(self.home, self.away, self.map, self.result, self.score, self.date)
+        return match.tname, match.home, match.away, match.map, match.result, match.score, match.date
 
 
 standings_url = "https://play.esea.net/index.php?s=league&d=standings&division_id=3121"
@@ -44,14 +45,14 @@ for i in range(0, len(team_stats_list)):
 
 index = 0
 for row in big_data:
-    match = Match(row[1], row[2], row[3], row[4], row[5], row[6])
+    match = Match(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
     if match in match_list:
         duplicate_list.append(match)
+        print(match.teams)
     else:
         match_list.append(match)
-    index += 1
 
 with open('Book2.csv', 'w', newline='') as f:
-    writer = csv.writer(f)
+    writer = csv.writer(f, delimiter=',')
     for match in match_list:
-        writer.writerow([match.stat_row()])
+        writer.writerow(match.stat_row())
