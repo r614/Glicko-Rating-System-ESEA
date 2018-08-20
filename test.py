@@ -11,8 +11,10 @@ class Match:
         self.result = result
         self.score = score
 
-        def __eq__(self, other):
-            return self.__dict__ == other.__dict__
+    #Override equality operator for this class
+    def __eq__(self, other):
+        #print(self.home == other.home)
+        return self.home == other.home and self.away == other.away and self.map == other.map and self.date == other.date
 
     def stat_row(self):
         return match.tname, match.home, match.away, match.map, match.result, match.score, match.date
@@ -48,7 +50,6 @@ for row in big_data:
     match = Match(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
     if match in match_list:
         duplicate_list.append(match)
-        print(match.teams)
     else:
         match_list.append(match)
 
@@ -56,3 +57,5 @@ with open('Book2.csv', 'w', newline='') as f:
     writer = csv.writer(f, delimiter=',')
     for match in match_list:
         writer.writerow(match.stat_row())
+
+
