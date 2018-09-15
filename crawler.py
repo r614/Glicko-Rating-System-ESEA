@@ -2,23 +2,23 @@ from selenium import webdriver
 from bs4 import BeautifulSoup as soup
 import time
 import csv
-# import numpy as np
+import ComputeRating as cr
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
-# from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
+
+
 
 standings_url = "https://play.esea.net/index.php?s=league&d=standings&division_id=3121"
 base_url = "https://play.esea.net"
 team_urls = []
 team_names = []
-team_scores_and_names_dict = {}
 team_stats_list = []  # Team Name, Home, Away, Map, Result, Score, Date
 team_stats = ['', '',  '',  '', '', '', '']
-stats_list_filtered = ['', '',  '',  '', '', '', '']
 
+big_data = []
 path = r"D:/School/Python/Rating/chromedriver.exe"
-max_teams = 50
+
 
 # Open up a chrome browser and get IM Standings page
 driver = webdriver.Chrome()
@@ -57,31 +57,25 @@ for i in range(0, len(table_rows)):
                 team_stats[5] = cells[5].find('a').text
                 team_stats[6] = cells[6].find('a').text
                 team_stats_list.append(team_stats)
-                with open('stats_2', 'w', newline='') as outfile:
-                    writer = csv.writer(outfile)
+                with open(r'stats', 'a') as f:
+                    writer = csv.writer(f)
                     writer.writerow(team_stats)
-    time.sleep(4)
+    time.sleep(4.2)
 
-# big_data = np.genfromtxt('stats.csv', delimiter=',')
+with open('stats.csv', 'r', newline='') as f:
+    reader = csv.reader(f)
+    team_stats_list = list(reader)
 
-# Creates an array for every row in team__stats_list. Checks for presence in stats_list_filtered. If present, doesn't append.
-r = 0
 length = len(team_stats_list)
-while r < length:
-    search = team_stats_list[r]
-    if (search[0] == 'Animus Gaming'and search[-1] == 'Jul 9 18'):
-        stats_list_filtered.append(search[:])
-        r = length
-        print(stats_list_filtered)
+
+for i in range(0, len(team_stats_list)):
+    if(i % 2 == 0):
+        big_data.append(team_stats_list[i])
     else:
-        for i in range(0, len(stats_list_filtered)):
-            if(search[1:] == stats_list_filtered[i][1:]):
-                pass
-            else:
-                stats_list_filtered.append(search[:])
-                print(stats_list_filtered)
-                r = r + 1
-                break
-with open('stats_filtered', 'w', newline=',') as outfile:
+        pass
+
+with open('big_data.csv', 'w', newline='') as outfile:
     writer = csv.writer(outfile)
-    writer.writerow(team_stats)
+    writer.writerows(big_data)
+
+cr.CalculateRating()
