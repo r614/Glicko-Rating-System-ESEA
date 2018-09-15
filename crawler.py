@@ -60,7 +60,7 @@ for i in range(0, len(table_rows)):
                 with open(r'stats', 'a') as f:
                     writer = csv.writer(f)
                     writer.writerow(team_stats)
-    time.sleep(4.2)
+    time.sleep(4.2) #Optimal time to not get rate limited by ESEA. 
 
 with open('stats.csv', 'r', newline='') as f:
     reader = csv.reader(f)
@@ -68,7 +68,7 @@ with open('stats.csv', 'r', newline='') as f:
 
 length = len(team_stats_list)
 
-for i in range(0, len(team_stats_list)):
+for i in range(0, len(team_stats_list)):  #Removes all blank rows and saves as big_data.csv 
     if(i % 2 == 0):
         big_data.append(team_stats_list[i])
     else:
